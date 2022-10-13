@@ -251,6 +251,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_course/widget/loading.dart';
 import 'package:get/get.dart';
 
 import '../../controller/main_controller.dart';
@@ -263,12 +264,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final AuthController controller = Get.put(AuthController());
+  final MainController controller = Get.put(MainController());
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      if (controller.isLoadingProfile.value) {
-        return Center(child: CircularProgressIndicator());
+      if (controller.loading.value) {
+        return LoadingPage();
       } else {
         return Scaffold(
           appBar: AppBar(
@@ -298,14 +299,6 @@ class _HomePageState extends State<HomePage> {
                         ),
                 ),
               ),
-              // CircleAvatar(
-              //   radius: 20,
-              //   backgroundColor: Colors.orange,
-              //   backgroundImage: controller.user!.profile == null ||
-              //           controller.user!.profile == ""
-              //       ? AssetImage("assets/user.png")
-              //       : ()
-              // ),
             ),
           ),
           body: SingleChildScrollView(

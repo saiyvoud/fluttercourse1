@@ -175,7 +175,7 @@ class _RegisterState extends State<Register> {
   final password = TextEditingController();
   final comfirm_password = TextEditingController();
   final _form = GlobalKey<FormState>();
-  final AuthController controller = Get.put(AuthController());
+  final MainController controller = Get.put(MainController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -219,6 +219,7 @@ class _RegisterState extends State<Register> {
             TextFormField(
               controller: phone,
               decoration: InputDecoration(hintText: 'phone'),
+              keyboardType: TextInputType.number,
               validator: (value) {
                 if (value!.isEmpty || value == null) {
                   return "phone is require";
@@ -252,17 +253,17 @@ class _RegisterState extends State<Register> {
                 width: 200,
                 child: ElevatedButton(
                     onPressed: () {
-                      // controller.register(firstName.text, lastName.text,
-                      //     phone.text, password.text);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: ((context) => OTPPage(
-                                    phone: phone.text,
-                                    firstName: firstName.text,
-                                    password: password.text,
-                                    lastName: lastName.text,
-                                  ))));
+                      controller.register(firstName.text, lastName.text,
+                          phone.text, password.text, context);
+                      // Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //         builder: ((context) => OTPPage(
+                      //               phone: phone.text,
+                      //               firstName: firstName.text,
+                      //               password: password.text,
+                      //               lastName: lastName.text,
+                      //             ))));
                     },
                     child: Text("Register")))
           ],

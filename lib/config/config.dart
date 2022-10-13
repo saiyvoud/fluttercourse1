@@ -1,1 +1,1 @@
-const END_POINTS = "https://test-mysql-laos.herokuapp.com/api";
+const END_POINTS = "http://192.168.43.87:5000/api";

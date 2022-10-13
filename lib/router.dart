@@ -12,7 +12,7 @@ import 'package:get/get.dart';
 //     ];
 
 routes() => [
-      GetPage(name: "/login", page: () => LoginPage()),
+      GetPage(name: "/login", page: () => LoginPages()),
       GetPage(name: "/register", page: () => Register()),
       GetPage(name: "/home", page: () => HomePage()),
     ];

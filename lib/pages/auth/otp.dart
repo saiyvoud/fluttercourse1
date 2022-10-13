@@ -28,7 +28,7 @@ class OTPPage extends StatefulWidget {
 }
 
 class _OTPPageState extends State<OTPPage> {
-  final AuthController controller = Get.put(AuthController());
+  final MainController controller = Get.put(MainController());
   String _verificationId = '';
   bool showLoading = false;
   int start = 0;
@@ -46,13 +46,17 @@ class _OTPPageState extends State<OTPPage> {
     var second = Duration(seconds: 1);
     Timer.periodic(second, (timer) {
       if (start == 0) {
-        setState(() {
-          timer.cancel();
-        });
+        if (mounted) {
+          setState(() {
+            timer.cancel();
+          });
+        }
       } else {
-        setState(() {
-          start--;
-        });
+        if (mounted) {
+          setState(() {
+            start--;
+          });
+        }
       }
     });
   }
@@ -63,9 +67,11 @@ class _OTPPageState extends State<OTPPage> {
       phoneNumber: '+85620${widget.phone}',
       verificationCompleted: (PhoneAuthCredential credential) async {
         print('success:$credential');
-        setState(() {
-          showLoading = true;
-        });
+        if (mounted) {
+          setState(() {
+            showLoading = true;
+          });
+        }
       },
       verificationFailed: (FirebaseAuthException e) {
         if (e.code == 'invalid-phone-number') {
@@ -75,12 +81,14 @@ class _OTPPageState extends State<OTPPage> {
         // Handle other errors
       },
       codeSent: (String verificationId, int? resendToken) async {
-        setState(() {
-          _verificationId = verificationId;
-          startTime();
+        if (mounted) {
+          setState(() {
+            _verificationId = verificationId;
+            startTime();
 
-          showLoading = true;
-        });
+            showLoading = true;
+          });
+        }
       },
       codeAutoRetrievalTimeout: (String verificationId) async {
         // Auto-resolution timed out...
@@ -99,6 +107,7 @@ class _OTPPageState extends State<OTPPage> {
           widget.lastName,
           widget.phone,
           widget.password,
+          context,
         );
       } else {
         showDialogbox(context, "OTP ບໍ່ສຳເລັດ");

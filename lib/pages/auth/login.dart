@@ -2,12 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_course/controller/main_controller.dart';
-
-import 'package:flutter_course/pages/auth/register.dart';
-import 'package:flutter_course/widget/widget.dart';
 import 'package:get/get.dart';
 
 import '../../controller/main_controller.dart';
+import '../../widget/widget.dart';
 
 class LoginPages extends StatefulWidget {
   const LoginPages({Key? key}) : super(key: key);
@@ -20,8 +18,6 @@ class _LoginPagesState extends State<LoginPages> {
   final phone = TextEditingController();
   final password = TextEditingController();
   final _form = GlobalKey<FormState>();
-  // AuthController controller = Get.put(AuthController());
-
   MainController mainController = Get.put(MainController());
   @override
   Widget build(BuildContext context) {
@@ -83,7 +79,7 @@ class _LoginPagesState extends State<LoginPages> {
                             MaterialStateProperty.all(Colors.green)),
                     onPressed: () {
                       if (_form.currentState!.validate()) {
-                        // showdone(context);
+                        showdone(context);
                         mainController.login(
                             phone.text, password.text, context);
                       }
@@ -103,29 +99,6 @@ class _LoginPagesState extends State<LoginPages> {
           ),
         )),
       ),
-    );
-  }
-}
-
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
-
-  @override
-  State<LoginPage> createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Login"),
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
-          child: Column(
-        children: [],
-      )),
     );
   }
 }
