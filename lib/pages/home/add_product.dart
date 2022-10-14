@@ -1,7 +1,16 @@
+// ignore_for_file: prefer_const_constructors, deprecated_member_use, prefer_const_literals_to_create_immutables, sized_box_for_whitespace
+
+import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_course/controller/main_controller.dart';
 import 'package:flutter_course/widget/widget.dart';
+import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AddProduct extends StatefulWidget {
   const AddProduct({Key? key}) : super(key: key);
@@ -15,6 +24,35 @@ class _AddProductState extends State<AddProduct> {
   final name = TextEditingController();
   final desc = TextEditingController();
   final price = TextEditingController();
+  final MainController controller = Get.put(MainController());
+  String? imgFile;
+  File? file;
+  Future chooseImage(ImageSource imageSource, BuildContext context) async {
+    try {
+      var object = await ImagePicker().getImage(
+        source: imageSource,
+      );
+      setState(() {
+        file = File(object!.path);
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> selectFile(BuildContext context) async {
+    if (file == null) return;
+
+    File fileName = File(file!.path);
+    Uint8List imagebytes = await fileName.readAsBytes();
+    String base64string = base64.encode(imagebytes);
+    imgFile = "data:image/jpg;base64,$base64string";
+    print('fileName:${imgFile}');
+    setState(() {
+      imgFile;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,7 +75,7 @@ class _AddProductState extends State<AddProduct> {
               SizedBox(height: 10),
               InkWell(
                 onTap: () {
-                 
+                  _showDialog(context);
                 },
                 child: Container(
                   height: 110,
@@ -52,7 +90,7 @@ class _AddProductState extends State<AddProduct> {
               ),
               SizedBox(height: 10),
               TextFormField(
-                controller: price,
+                controller: name,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter name';
@@ -65,7 +103,7 @@ class _AddProductState extends State<AddProduct> {
               ),
               SizedBox(height: 10),
               TextFormField(
-                controller: price,
+                controller: desc,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter desc';
@@ -82,8 +120,6 @@ class _AddProductState extends State<AddProduct> {
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter price';
-                  } else if (value.toString().length < 8) {
-                    return 'ເບີໂທລະສັບຕ້ອງມີ 8 ຕົວເລກ';
                   }
                   return null;
                 },
@@ -100,7 +136,12 @@ class _AddProductState extends State<AddProduct> {
                     style: ButtonStyle(
                         backgroundColor:
                             MaterialStateProperty.all(Colors.green)),
-                    onPressed: () {},
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        controller.addProduct(name.text, desc.text, price.text,
+                            file!.path, context);
+                      }
+                    },
                     child: const Text('+ Add Product'),
                   ),
                 ),
@@ -109,6 +150,49 @@ class _AddProductState extends State<AddProduct> {
           ),
         ),
       )),
+    );
+  }
+
+  void _showDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: Container(
+            height: 120,
+            child: Column(
+              children: [
+                ListTile(
+                  onTap: () {
+                    chooseImage(ImageSource.gallery, context);
+                  },
+                  leading: Icon(Icons.camera),
+                  title: Text("gallery"),
+                ),
+                ListTile(
+                  onTap: () {
+                    chooseImage(ImageSource.camera, context);
+                  },
+                  leading: Icon(Icons.camera_alt),
+                  title: Text("camera"),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            FlatButton(
+                color: Colors.red,
+                onPressed: () {
+                  Get.back();
+                },
+                child: Text(
+                  'ຍົກເລີກ',
+                  style: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.bold),
+                ))
+          ],
+        );
+      },
     );
   }
 }

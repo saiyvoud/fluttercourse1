@@ -38,7 +38,24 @@ class _EditProfileState extends State<EditProfile> {
             children: [
               SizedBox(height: 10),
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  PopupMenuButton(
+                      icon: Icon(Icons.more_vert),
+                      itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+                            PopupMenuItem(
+                              child: ListTile(
+                                leading: Icon(Icons.camera),
+                                title: Text('gallery'),
+                              ),
+                            ),
+                            PopupMenuItem(
+                              child: ListTile(
+                                leading: Icon(Icons.camera_alt),
+                                title: Text('camare'),
+                              ),
+                            )
+                          ]);
+                },
                 child: Container(
                   height: 110,
                   width: 110,

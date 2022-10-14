@@ -29,6 +29,8 @@ class MainController extends GetxController {
 
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
+
+        Get.back();
         if (data["msg"] == "Invaild phone or password") {
           showDialogbox(context, "Invaild phone or password");
         } else {
@@ -96,10 +98,62 @@ class MainController extends GetxController {
       }
     } catch (err) {
       print("err  register${err}");
+      showDialogbox(context, "register error");
     }
   }
 
   logout() async {
     await box.remove("token");
+  }
+
+  addProduct(name, desc, price, image, context) async {
+    try {
+      var body = {
+        "name": name,
+        "description": desc,
+        "price": price,
+        "image": image
+      };
+      var respones = await http.post(Uri.parse("${END_POINTS}/product/add"),
+          body: body, headers: {"token": box.read("token")});
+      if (respones.statusCode == 200) {
+        showDialogSuccess(context, "add product Success");
+      }
+    } catch (e) {
+      print("err add product${e}");
+      showDialogbox(context, "add product error");
+    }
+  }
+
+  updateProduct(name, desc, price, image, context) async {
+    try {
+      var body = {
+        "name": name,
+        "description": desc,
+        "price": price,
+        "image": image
+      };
+      var respones = await http.put(Uri.parse("${END_POINTS}/product"),
+          body: body, headers: {"token": box.read("token")});
+      if (respones.statusCode == 200) {
+        showDialogSuccess(context, "add product Success");
+      }
+    } catch (e) {
+      print("err add product${e}");
+      showDialogbox(context, "add product error");
+    }
+  }
+
+  deleteProduct(id, context) async {
+    try {
+      var respones = await http.delete(Uri.parse("${END_POINTS}/product/add"),
+          headers: {"token": box.read("token")});
+      if (respones.statusCode == 200) {
+        showDialogSuccess(context, "add product Success");
+      }
+    } catch (e) {
+      print("err add product${e}");
+      showDialogbox(context, "add product error");
+    }
   }
 }
