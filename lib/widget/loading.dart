@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 class LoadingPage extends StatefulWidget {
   const LoadingPage({Key? key}) : super(key: key);
@@ -15,13 +16,17 @@ class _LoadingPageState extends State<LoadingPage> {
     return Scaffold(
       body: SingleChildScrollView(
           child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Container(
-            margin: const EdgeInsets.symmetric(vertical: 120),
-            child: Image.asset(
-              "assets/loading.json",
-              height: 120,
-              fit: BoxFit.cover,
+          Center(
+            child: Container(
+              margin: const EdgeInsets.symmetric(vertical: 220),
+              child: Lottie.asset(
+                "assets/flutter_logo.json",
+                height: 220,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           SizedBox(height: 10),

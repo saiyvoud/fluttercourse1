@@ -183,92 +183,95 @@ class _RegisterState extends State<Register> {
         title: Text('Register'),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-          child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Column(
-          children: [
-            Image.asset(
-              "assets/Privacy policy-bro.png",
-              height: 120,
-            ),
-            Text(
-              'Create your Account',
-              style: TextStyle(fontSize: 20),
-            ),
-            TextFormField(
-              controller: firstName,
-              decoration: InputDecoration(hintText: 'firstName'),
-              validator: (value) {
-                if (value!.isEmpty || value == null) {
-                  return "firstName is require";
-                }
-                return null;
-              },
-            ),
-            TextFormField(
-              controller: lastName,
-              decoration: InputDecoration(hintText: 'lastName'),
-              validator: (value) {
-                if (value!.isEmpty || value == null) {
-                  return "lastName is require";
-                }
-                return null;
-              },
-            ),
-            TextFormField(
-              controller: phone,
-              decoration: InputDecoration(hintText: 'phone'),
-              keyboardType: TextInputType.number,
-              validator: (value) {
-                if (value!.isEmpty || value == null) {
-                  return "phone is require";
-                }
-                return null;
-              },
-            ),
-            TextFormField(
-              controller: password,
-              decoration: InputDecoration(hintText: 'password'),
-              validator: (value) {
-                if (value!.isEmpty || value == null) {
-                  return "password is require";
-                }
-                return null;
-              },
-            ),
-            TextFormField(
-              controller: comfirm_password,
-              decoration: InputDecoration(hintText: 'comfirm password'),
-              validator: (value) {
-                if (value!.isEmpty || value == null) {
-                  return "comfirm password is require";
-                }
-                return null;
-              },
-            ),
-            SizedBox(height: 10),
-            Container(
-                height: 50,
-                width: 200,
-                child: ElevatedButton(
-                    onPressed: () {
-                      controller.register(firstName.text, lastName.text,
-                          phone.text, password.text, context);
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: ((context) => OTPPage(
-                      //               phone: phone.text,
-                      //               firstName: firstName.text,
-                      //               password: password.text,
-                      //               lastName: lastName.text,
-                      //             ))));
-                    },
-                    child: Text("Register")))
-          ],
-        ),
-      )),
+      body: Form(
+        key: _form,
+        child: SingleChildScrollView(
+            child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Column(
+            children: [
+              Image.asset(
+                "assets/Privacy policy-bro.png",
+                height: 120,
+              ),
+              Text(
+                'Create your Account',
+                style: TextStyle(fontSize: 20),
+              ),
+              TextFormField(
+                controller: firstName,
+                decoration: InputDecoration(hintText: 'firstName'),
+                validator: (value) {
+                  if (value!.isEmpty || value == null) {
+                    return "firstName is require";
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                controller: lastName,
+                decoration: InputDecoration(hintText: 'lastName'),
+                validator: (value) {
+                  if (value!.isEmpty || value == null) {
+                    return "lastName is require";
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                controller: phone,
+                decoration: InputDecoration(hintText: 'phone'),
+                keyboardType: TextInputType.number,
+                validator: (value) {
+                  if (value!.isEmpty || value == null) {
+                    return "phone is require";
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                controller: password,
+                decoration: InputDecoration(hintText: 'password'),
+                validator: (value) {
+                  if (value!.isEmpty || value == null) {
+                    return "password is require";
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                controller: comfirm_password,
+                decoration: InputDecoration(hintText: 'comfirm password'),
+                validator: (value) {
+                  if (value!.isEmpty || value == null) {
+                    return "comfirm password is require";
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 10),
+              Container(
+                  height: 50,
+                  width: 200,
+                  child: ElevatedButton(
+                      onPressed: () {
+                        if (_form.currentState!.validate()) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: ((context) => OTPPage(
+                                        phone: phone.text,
+                                        firstName: firstName.text,
+                                        password: password.text,
+                                        lastName: lastName.text,
+                                      ))));
+                        }
+                      },
+                      child: Text("Register")))
+            ],
+          ),
+        )),
+      ),
     );
   }
 }
