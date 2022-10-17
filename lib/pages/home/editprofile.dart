@@ -153,12 +153,8 @@ class _EditProfileState extends State<EditProfile> {
                                 MaterialStateProperty.all(Colors.orange)),
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            controller.updateProfile(
-                                id,
-                                firstName.text,
-                                lastName.text,
-                                imgFile == "" ? "user.png" : imgFile,
-                                context);
+                            controller.updateProfile(id, firstName.text,
+                                lastName.text, imgFile, context);
                           }
                         },
                         child: const Text('Update Profile'),

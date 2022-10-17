@@ -164,7 +164,7 @@ class MainController extends GetxController {
           Uri.parse("${END_POINTS}/user/updateProfile"),
           body: body,
           headers: {"token": box.read("token")});
-      print(response.body);
+
       if (response.statusCode == 201) {
         await box.remove("user");
         await getUserProfile(box.read("token"));
