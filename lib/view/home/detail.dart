@@ -1,42 +1,36 @@
-// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, unnecessary_brace_in_string_interps, avoid_print, deprecated_member_use, unused_element
+// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, unnecessary_brace_in_string_interps, avoid_print, deprecated_member_use
 
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_course/controller/main_controller.dart';
+
 import 'package:flutter_course/model/product_model.dart';
-import 'package:flutter_course/model/user_model.dart';
-import 'package:flutter_course/widget/widget.dart';
-import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
+
 import 'package:image_picker/image_picker.dart';
 
-class EditProfile extends StatefulWidget {
-  const EditProfile({Key? key}) : super(key: key);
+class Detail extends StatefulWidget {
+  final Product product;
+  const Detail({Key? key, required this.product}) : super(key: key);
 
   @override
-  State<EditProfile> createState() => _EditProfileState();
+  State<Detail> createState() => _DetailState();
 }
 
-class _EditProfileState extends State<EditProfile> {
+class _DetailState extends State<Detail> {
   final _formKey = GlobalKey<FormState>();
-  final firstName = TextEditingController();
-  final lastName = TextEditingController();
+  final name = TextEditingController();
+  final desc = TextEditingController();
+  final price = TextEditingController();
   int id = 0;
-  final MainController controller = Get.put(MainController());
+
   String? imgFile;
   File? file;
+  Product? product;
   @override
   void initState() {
     super.initState();
-    id = controller.user!.id!;
-    firstName.text = controller.user!.firstName!;
-    lastName.text = controller.user!.lastName!;
-    imgFile = controller.user!.profile!;
+    product = widget.product;
   }
 
   Future chooseImage(ImageSource imageSource, BuildContext context) async {
@@ -66,19 +60,20 @@ class _EditProfileState extends State<EditProfile> {
     });
   }
 
-  final box = GetStorage();
-
   @override
   Widget build(BuildContext context) {
+    name.text = product!.name;
+    desc.text = product!.description;
+    price.text = product!.price;
+    imgFile = product!.image;
+    id = product!.id;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Profile'),
+        title: Text('Detail Product'),
         centerTitle: true,
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Get.back();
-          },
+          onPressed: () {},
         ),
       ),
       body: Form(
@@ -102,13 +97,10 @@ class _EditProfileState extends State<EditProfile> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: file == null
-                          ? controller.user!.profile! == null ||
-                                  controller.user!.profile! == ""
-                              ? Icon(Icons.add)
-                              : Image.network(
-                                  controller.user!.profile!,
-                                  fit: BoxFit.cover,
-                                )
+                          ? Image.network(
+                              product!.image,
+                              fit: BoxFit.cover,
+                            )
                           : Image.file(
                               file!,
                               fit: BoxFit.cover,
@@ -117,49 +109,81 @@ class _EditProfileState extends State<EditProfile> {
                   ),
                   SizedBox(height: 10),
                   TextFormField(
-                    controller: firstName,
+                    // initialValue: widget.product.name,
+                    controller: name,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'firstName is require';
+                        return 'name is require';
                       }
                       return null;
                     },
                     decoration: InputDecoration(
-                      hintText: 'firstName',
+                      hintText: 'name',
                     ),
                   ),
                   SizedBox(height: 10),
                   TextFormField(
-                    controller: lastName,
+                    // initialValue: widget.product.price,
+                    controller: desc,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'lastName enter desc';
+                        return 'desc is require';
                       }
                       return null;
                     },
                     decoration: InputDecoration(
-                      hintText: 'lastName',
+                      hintText: 'desc',
                     ),
                   ),
                   SizedBox(height: 10),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20.0),
-                    child: Container(
-                      height: 50,
-                      width: 200,
-                      child: ElevatedButton(
-                        style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(Colors.orange)),
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            controller.updateProfile(id, firstName.text,
-                                lastName.text, imgFile, context);
-                          }
-                        },
-                        child: const Text('Update Profile'),
-                      ),
+                  TextFormField(
+                    controller: price,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'price is require';
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                      hintText: 'price',
                     ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 20.0),
+                        child: Container(
+                          height: 50,
+                          width: 160,
+                          child: ElevatedButton(
+                            style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all(Colors.orange)),
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {}
+                            },
+                            child: const Text('Update Product'),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 20.0),
+                        child: Container(
+                          height: 50,
+                          width: 160,
+                          child: ElevatedButton(
+                            style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all(Colors.red)),
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {}
+                            },
+                            child: const Text('Delete Product'),
+                          ),
+                        ),
+                      ),
+                    ],
                   )
                 ],
               ),
@@ -197,9 +221,7 @@ class _EditProfileState extends State<EditProfile> {
           actions: [
             FlatButton(
                 color: Colors.red,
-                onPressed: () {
-                  Get.back();
-                },
+                onPressed: () {},
                 child: Text(
                   'ຍົກເລີກ',
                   style: TextStyle(

@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, deprecated_member_use, prefer_const_literals_to_create_immutables, sized_box_for_whitespace
+// ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, unnecessary_brace_in_string_interps, avoid_print, deprecated_member_use, unused_element
 
 import 'dart:convert';
 import 'dart:io';
@@ -6,26 +6,28 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 
-import 'package:flutter_course/controller/main_controller.dart';
-
-import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
-class AddProduct extends StatefulWidget {
-  const AddProduct({Key? key}) : super(key: key);
+class EditProfile extends StatefulWidget {
+  const EditProfile({Key? key}) : super(key: key);
 
   @override
-  State<AddProduct> createState() => _AddProductState();
+  State<EditProfile> createState() => _EditProfileState();
 }
 
-class _AddProductState extends State<AddProduct> {
+class _EditProfileState extends State<EditProfile> {
   final _formKey = GlobalKey<FormState>();
-  final name = TextEditingController();
-  final desc = TextEditingController();
-  final price = TextEditingController();
-  final MainController controller = Get.put(MainController());
+  final firstName = TextEditingController();
+  final lastName = TextEditingController();
+  int id = 0;
+
   String? imgFile;
   File? file;
+  @override
+  void initState() {
+    super.initState();
+  }
+
   Future chooseImage(ImageSource imageSource, BuildContext context) async {
     try {
       var object = await ImagePicker().getImage(
@@ -47,19 +49,9 @@ class _AddProductState extends State<AddProduct> {
     Uint8List imagebytes = await fileName.readAsBytes();
     String base64string = base64.encode(imagebytes);
     imgFile = "data:image/jpg;base64,$base64string";
-
+    print('fileName:${imgFile}');
     setState(() {
       imgFile;
-    });
-  }
-
-  clearData() {
-    setState(() {
-      name.clear();
-      desc.clear();
-      price.clear();
-      imgFile = "";
-      file = null;
     });
   }
 
@@ -67,13 +59,11 @@ class _AddProductState extends State<AddProduct> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add Product'),
+        title: Text('Profile'),
         centerTitle: true,
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Get.back();
-          },
+          onPressed: () {},
         ),
       ),
       body: Form(
@@ -96,53 +86,47 @@ class _AddProductState extends State<AddProduct> {
                         border: Border.all(color: Colors.grey),
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      child: file == null
-                          ? Icon(Icons.add)
-                          : Image.file(
-                              file!,
-                              fit: BoxFit.cover,
-                            ),
+                      // child: file == null
+                      //     ? controller.user!.profile! == null ||
+                      //             controller.user!.profile! == ""
+                      //         ? Icon(Icons.add)
+                      //         : Image.network(
+                      //             controller.user!.profile!,
+                      //             fit: BoxFit.cover,
+                      //           )
+                      //     : Image.file(
+                      //         file!,
+                      //         fit: BoxFit.cover,
+                      //       ),
                     ),
                   ),
                   SizedBox(height: 10),
                   TextFormField(
-                    controller: name,
+                    controller: firstName,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter name';
+                        return 'firstName is require';
                       }
                       return null;
                     },
                     decoration: InputDecoration(
-                      hintText: 'name',
+                      hintText: 'firstName',
                     ),
                   ),
                   SizedBox(height: 10),
                   TextFormField(
-                    controller: desc,
+                    controller: lastName,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter desc';
+                        return 'lastName enter desc';
                       }
                       return null;
                     },
                     decoration: InputDecoration(
-                      hintText: 'desc',
+                      hintText: 'lastName',
                     ),
                   ),
                   SizedBox(height: 10),
-                  TextFormField(
-                    controller: price,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter price';
-                      }
-                      return null;
-                    },
-                    decoration: InputDecoration(
-                      hintText: 'price',
-                    ),
-                  ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 20.0),
                     child: Container(
@@ -151,15 +135,11 @@ class _AddProductState extends State<AddProduct> {
                       child: ElevatedButton(
                         style: ButtonStyle(
                             backgroundColor:
-                                MaterialStateProperty.all(Colors.green)),
-                        onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
-                            await controller.addProduct(name.text, desc.text,
-                                price.text, imgFile, context);
-                            clearData();
-                          }
+                                MaterialStateProperty.all(Colors.orange)),
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {}
                         },
-                        child: const Text('+ Add Product'),
+                        child: const Text('Update Profile'),
                       ),
                     ),
                   )
@@ -199,9 +179,7 @@ class _AddProductState extends State<AddProduct> {
           actions: [
             FlatButton(
                 color: Colors.red,
-                onPressed: () {
-                  Get.back();
-                },
+                onPressed: () {},
                 child: Text(
                   'ຍົກເລີກ',
                   style: TextStyle(

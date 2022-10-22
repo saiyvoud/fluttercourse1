@@ -1,10 +1,7 @@
-import 'dart:async';
+// ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
+
 import 'package:lottie/lottie.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -15,23 +12,6 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  final box = GetStorage();
-  @override
-  void initState() {
-    super.initState();
-    Timer(const Duration(seconds: 3), () {
-      check();
-    });
-  }
-
-  check() {
-    if (box.read("token") == null || box.read("token") == "") {
-      Get.offNamed("/login");
-    } else {
-      Get.offNamed("/home");
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

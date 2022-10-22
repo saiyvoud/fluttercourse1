@@ -1,11 +1,8 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, unnecessary_null_comparison, sized_box_for_whitespace
 
 import 'package:flutter/material.dart';
-import 'package:flutter_course/controller/main_controller.dart';
-import 'package:get/get.dart';
 
-import '../../controller/main_controller.dart';
-import '../../widget/widget.dart';
+import '../widget/widget.dart';
 
 class LoginPages extends StatefulWidget {
   const LoginPages({Key? key}) : super(key: key);
@@ -18,7 +15,7 @@ class _LoginPagesState extends State<LoginPages> {
   final phone = TextEditingController();
   final password = TextEditingController();
   final _form = GlobalKey<FormState>();
-  MainController mainController = Get.put(MainController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,8 +77,6 @@ class _LoginPagesState extends State<LoginPages> {
                     onPressed: () {
                       if (_form.currentState!.validate()) {
                         showdone(context);
-                        mainController.login(
-                            phone.text, password.text, context);
                       }
                     },
                     child: Text('Login')),
@@ -90,11 +85,8 @@ class _LoginPagesState extends State<LoginPages> {
               Container(
                   height: 50,
                   width: 200,
-                  child: ElevatedButton(
-                      onPressed: () {
-                        Get.toNamed("/register");
-                      },
-                      child: Text("Register")))
+                  child:
+                      ElevatedButton(onPressed: () {}, child: Text("Register")))
             ],
           ),
         )),

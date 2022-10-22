@@ -1,14 +1,11 @@
-// ignore_for_file: prefer_const_constructors, avoid_print, unused_field, unused_element, use_build_context_synchronously
+// ignore_for_file: prefer_const_constructors, avoid_print, unused_field, unused_element, use_build_context_synchronously, unnecessary_null_comparison
 
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import 'package:flutter_course/controller/main_controller.dart';
-import 'package:flutter_course/widget/widget.dart';
-
-import 'package:get/get.dart';
+import '../widget/widget.dart';
 
 class OTPPage extends StatefulWidget {
   final String phone;
@@ -28,7 +25,6 @@ class OTPPage extends StatefulWidget {
 }
 
 class _OTPPageState extends State<OTPPage> {
-  final MainController controller = Get.put(MainController());
   String _verificationId = '';
   bool showLoading = false;
   int start = 0;
@@ -102,13 +98,7 @@ class _OTPPageState extends State<OTPPage> {
           await FirebaseAuth.instance.signInWithCredential(phoneAuthCredential);
       if (authOTP.user != null) {
         // Get.back();
-        controller.register(
-          widget.firstName,
-          widget.lastName,
-          widget.phone,
-          widget.password,
-          context,
-        );
+
       } else {
         showDialogbox(context, "OTP ບໍ່ສຳເລັດ");
       }
