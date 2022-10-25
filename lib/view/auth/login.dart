@@ -1,6 +1,8 @@
-// ignore_for_file: prefer_const_constructors, unnecessary_null_comparison, sized_box_for_whitespace
+// ignore_for_file: prefer_const_constructors, unnecessary_null_comparison, sized_box_for_whitespace, unused_local_variable
 
 import 'package:flutter/material.dart';
+import 'package:flutter_course/provider/user_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../widget/widget.dart';
 
@@ -18,11 +20,11 @@ class _LoginPagesState extends State<LoginPages> {
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Welcome'),
         centerTitle: true,
-        // actions: [Text('welcome')],
       ),
       body: Form(
         key: _form,

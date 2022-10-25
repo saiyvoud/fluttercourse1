@@ -9,7 +9,7 @@ import '../widget/widget.dart';
 
 class OTPPage extends StatefulWidget {
   final String phone;
-  final String firstName;
+  final String firstName; 
   final String lastName;
   final String password;
   const OTPPage(
