@@ -7,6 +7,7 @@ import 'package:flutter_course/model/user_model.dart';
 import 'package:flutter_course/repo/api_status.dart';
 import 'package:flutter_course/repo/user_repo.dart';
 import 'package:flutter_course/utils/router_name.dart';
+import 'package:flutter_course/view/widget/widget.dart';
 
 class AuthProvider extends ChangeNotifier {
   bool _loading = false;
@@ -25,12 +26,10 @@ class AuthProvider extends ChangeNotifier {
 
   setUserError() {}
 
-  getUser() async {
+  getUser(token) async {
     setLoading(true);
     var response = await UserReposibility.getUser();
-    if (response is Success) {
-      setUserListModel(response.response as List<UserModel>);
-    }
+    if (response is Success) {}
     if (response is Failure) {
       setUserError();
     }
@@ -40,15 +39,14 @@ class AuthProvider extends ChangeNotifier {
   loginUser(phone, password, context) async {
     var data = await UserReposibility.login(phone, password);
     if (data["msg"] == LOGIN_SUCCESS) {
-      await setToken(data["token"]);
+      await getUser(data["token"]);
       Navigator.pushNamed(context, RoutesName.home);
     } else if (data["msg"] == INVALID_LOGIN) {
+      showDialogbox(context, "Invaild phone or password");
     } else {
       if (kDebugMode) {
         print(data.toString());
       }
     }
   }
-
-  setToken(token) {}
 }
