@@ -1,5 +1,4 @@
-class Success {
-  int? code;
+     int? code;
   Object? response;
   Success({
     this.code,
