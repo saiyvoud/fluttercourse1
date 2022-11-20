@@ -5,6 +5,14 @@ UserModel userFromJson(String str) => UserModel.fromJson(json.decode(str));
 String userToJson(UserModel data) => json.encode(data.toJson());
 
 class UserModel {
+  // ຕົວປ່ຽນພາຍນອກທີ່ສົ່ງມາ
+  final int? id;
+  String? firstName;
+  String? lastName;
+  String? phone;
+  String? password;
+  String? profile;
+  String? token;
   // ເປັນ ຕົວປ່ຽນພາຍໃນໃຊ້ໃນ model
   UserModel(
       {this.id,
@@ -14,14 +22,6 @@ class UserModel {
       this.password,
       this.profile,
       this.token});
-  // ຕົວປ່ຽນພາຍນອກທີ່ສົ່ງມາ
-  int? id;
-  String? firstName;
-  String? lastName;
-  String? phone;
-  String? password;
-  String? profile;
-  String? token;
 // ເປັນການສ້າງ from ຂໍ້ມູນເພື່ອເອົາໄປໃສ່ງານ
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
         id: json["id"],

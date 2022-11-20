@@ -197,8 +197,7 @@ class _AddProductState extends State<AddProduct> {
             ),
           ),
           actions: [
-            FlatButton(
-                color: Colors.red,
+            TextButton(
                 onPressed: () {
                   Get.back();
                 },

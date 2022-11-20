@@ -227,8 +227,8 @@ class _DetailState extends State<Detail> {
             ),
           ),
           actions: [
-            FlatButton(
-                color: Colors.red,
+            TextButton(
+               
                 onPressed: () {
                   Get.back();
                 },

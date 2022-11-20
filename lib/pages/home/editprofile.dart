@@ -195,8 +195,7 @@ class _EditProfileState extends State<EditProfile> {
             ),
           ),
           actions: [
-            FlatButton(
-                color: Colors.red,
+            TextButton(
                 onPressed: () {
                   Get.back();
                 },

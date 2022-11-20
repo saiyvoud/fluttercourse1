@@ -86,8 +86,8 @@ class MainController extends GetxController {
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
         await storeUserData(data);
-        // UserModel toJson = userFromJson(data);
-        // _user.value = toJson;
+        UserModel toJson = userFromJson(data);
+        _user.value = toJson;
         loading(false);
         update();
       }
@@ -103,6 +103,7 @@ class MainController extends GetxController {
       if (box.hasData('token')) {
         loading(true);
         var user = await box.read('user');
+        //
         UserModel toJson = userFromJson(user);
         if (user != null) {
           _user.value = toJson;

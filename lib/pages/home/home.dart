@@ -22,6 +22,7 @@ class _HomePageState extends State<HomePage> {
   final MainController controller = Get.put(MainController());
   @override
   void initState() {
+    //
     controller.fetchUserLocal();
     super.initState();
   }
